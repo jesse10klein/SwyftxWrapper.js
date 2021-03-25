@@ -1,8 +1,5 @@
 const axios = require("axios");
 
-const apiKey = require('./keys').apiKey;
-console.log(apiKey);
-
 async function axiosRequest(method, url, data) {
   const response = await axios({method, url, data})
                     .then(resp => resp.data)
@@ -10,24 +7,29 @@ async function axiosRequest(method, url, data) {
   return response;
 }
 
-async function getRefreshToken() {
-  const response = await axiosRequest("POST", "https://api.swyftx.com.au/auth/refresh/", {apiKey});
-  const accessToken = response.accessToken;
-  return accessToken;
-}
+function Swyftx(apiKey) {
+  const self = this;
+  self.key = apiKey;
+  self.accessToken = null;
 
-async function getBasicInfo(coin) {
-  const response = await axiosRequest("GET", `https://api.swyftx.com.au/markets/info/basic/${coin}/`, {
-    Authorization: `:Bearer ${accessToken}`
-  })
-  return response;
-}
+  self.getAccessToken = () => self.accessToken;
 
-const main = async () => {
+  self.generateRefreshToken = async () => {
+    const response = await axiosRequest("POST", "https://api.swyftx.com.au/auth/refresh/", {apiKey: self.key});
+    console.log(response);
+    const accessToken = response.accessToken;
+    self.accessToken = accessToken;
+    return accessToken;
+  }
   
-  //const coinInfo = await getBasicInfo("STMX");
-  console.log(coinInfo);
+  self.getBasicInfo = async (coin) => {
+    const response = await axiosRequest("GET", `https://api.swyftx.com.au/markets/info/basic/${coin}/`, {
+      Authorization: `:Bearer ${self.accessToken}`
+    })
+    return response;
+  }
+
 
 }
 
-main();
+module.exports = Swyftx;
