@@ -1,12 +1,20 @@
 {
-  "name": "swyftxwrapper",
+  "name": "SwyftxWrapper.js",
   "version": "1.0.0",
-  "description": "",
-  "main": "apiCalls.js",
+  "description": "A JavaScript wrapper for the Swyftx Cryptocurrency trading platform API",
+  "main": "SwyftxWrapper.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "keywords": [
+    "crypto", "swyftx", "australia", "bitcoin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jesse10klein/SwyftxWrapper.js"
+  },
+  "hompage": "https://github.com/jesse10klein/SwyftxWrapper.js#readme",
+  "author": "Jesse Klein",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1"
