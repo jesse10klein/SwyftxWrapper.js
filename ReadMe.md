@@ -1,13 +1,13 @@
-# SwyftxWrapper.js
+# swyftxwrapper.js
 
-SwyftxWrapper.js is a JavaScript wrapper for the Australian Cryptocurrency trading platform Swyftx.
+swyftxwrapper.js is a JavaScript wrapper for the Australian Cryptocurrency trading platform Swyftx.
 
 ## Installation
 
-To install SwyftWrapper.js simple use NPM in a terminal
+To install swyftwrapper.js simple use NPM in a terminal
 
 ```bash
-npm install SwyftxWrapper.js
+npm install swyftxwrapper.js
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ npm install SwyftxWrapper.js
 To use the package, simply require it. Make sure to generate an access token before making any calls.
 
 ```javascript
-const Swyftx = require("SwyftxWrapper.js");
+const Swyftx = require("swyftxwrapper.js");
 
 const swyftx = Swyftx("YOUR_API_KEY");
 
