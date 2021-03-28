@@ -10,10 +10,9 @@ Please scroll towards the bottom of this page to find a list of all of the curre
 
 You can refer to the [Swyftx API docs](https://docs.swyftx.com.au/) and the [swyftxwrapper.js Github Repo](https://github.com/jesse10klein/SwyftxWrapper.js) to find the parameters needed for each endpoint.
 
+Since the Swyftx API is still in beta, it is subject to change at any time and the documentation may not always be up to date. Due to this, some of the endpoints in this wrapper may break from time to time, but I aim to fix any breaking changes as quickly as I can. If you notice an issue, feel free to raise it on [Github](https://github.com/jesse10klein/SwyftxWrapper.js)
 
-Since the Swyftx API is still in beta, it is subject to change at any time and the documentation may not always be up to date.
-
-![stonks](https://gph.is/g/4wP0ppO)
+![stonks](https://media.giphy.com/media/XDAY1NNG2VvobAp9o0/giphy.gif)
 
 ## Installation
 
