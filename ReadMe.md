@@ -17,13 +17,13 @@ To use the package, simply require it. Make sure to generate an access token bef
 ```javascript
 const Swyftx = require("swyftxwrapper.js");
 
-const swyftx = Swyftx("YOUR_API_KEY");
+const swyftx = new Swyftx("YOUR_API_KEY");
 
 const main = async () => {
   await swyftx.generateRefreshToken();
 
   //Make any calls to the API you'd like... for example
-  const litecoinData = await swyftx.getBasicInfo("LTC");
+  const liteCoinData = await swyftx.getBasicInfo("LTC");
   console.log(liteCoinData);
 }
 
