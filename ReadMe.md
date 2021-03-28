@@ -9,6 +9,12 @@ To install swyftwrapper.js simple use NPM in a terminal
 ```bash
 npm install swyftxwrapper.js
 ```
+## Note
+
+Please be aware, this package is still in development and does not currently support all endpoints.
+Please scroll down for a list of endpoints supported and refer to the Swyftx API here https://docs.swyftx.com.au/ for specific details for the endpoints
+
+The naming convention for calls to the APIs closely match their names on the official API docs.
 
 ## Usage
 
@@ -37,4 +43,33 @@ For DEMO use, simply set demo to true when instantiating the wrapper
 const swyftx = Swyftx("YOUR_API_KEY", demo=true);
 
 ```
+
+## Endpoints Supported
+
+### Authentication
+
+### Addresses
+
+### Account
+
+### Charts
+
+### Charts v2
+
+### Funds
+
+### History
+
+### Limits
+
+### Markets
+
+### Orders
+
+### Recurring Orders
+
+### Compare
+
+### Messages
+
 
