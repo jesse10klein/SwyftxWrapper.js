@@ -1,6 +1,19 @@
 # swyftxwrapper.js
 
-swyftxwrapper.js is a JavaScript wrapper for the Australian Cryptocurrency trading platform Swyftx.
+swyftxwrapper.js is a JavaScript wrapper for the Australian Cryptocurrency trading platform Swyftx's API.
+
+## Note
+
+Please be aware, this package is still in development and does not currently support all endpoints, but it aims to in the near future. 
+
+Please scroll towards the bottom of this page to find a list of all of the currently supported endpoints.
+
+You can refer to the [Swyftx API docs](https://docs.swyftx.com.au/) and the [swyftxwrapper.js Github Repo](https://github.com/jesse10klein/SwyftxWrapper.js) to find the parameters needed for each endpoint.
+
+
+Since the Swyftx API is still in beta, it is subject to change at any time and the documentation may not always be up to date.
+
+![stonks](https://gph.is/g/4wP0ppO)
 
 ## Installation
 
@@ -9,10 +22,6 @@ To install swyftwrapper.js simple use NPM in a terminal
 ```bash
 npm install swyftxwrapper.js
 ```
-## Note
-
-Please be aware, this package is still in development and does not currently support all endpoints.
-Please scroll down for a list of endpoints supported and refer to the Swyftx API here https://docs.swyftx.com.au/ for specific details for the endpoints
 
 ## Usage
 
@@ -70,7 +79,7 @@ const response = await swyftx.compareExchange("coinspot");
 console.log(response);
 ```
 
-### Get Messages
+### Get Latest Messages From Inbox
 ```javascript
 const response = await swyftx.getLatestMessages(limit=100);
 console.log(response);
@@ -83,8 +92,6 @@ console.log(response);
 ```
 
 ## Endpoints Supported
-
-This wrapper aims to successfully cover all endpoints. Since the Swyftx API is still in beta, it is subject to change at any time and the documentation may not always be up to date.
 
 ### Authentication
 * Refresh Access Token &#x2705;
