@@ -22,6 +22,7 @@ function paginationHandler(options) {
   if (options.page) optionsPresent.push(`page=${options.page}`)
   if (options.sortBy) optionsPresent.push(`sortBy=${options.sortBy}`)
   const optionsString = optionsPresent.join("&");
+  if (optionsPresent.length == 0) return "";
   return "?" + optionsString;
 }
 
@@ -49,6 +50,7 @@ function Swyftx(apiKey, demo=false) {
     return accessToken;
   }
 
+  //WORKING
   self.logout = async () => {
     const response = await axiosRequest("POST", "/auth/logout", this.getHeaders(true));
     return response;
@@ -224,7 +226,21 @@ function Swyftx(apiKey, demo=false) {
   }
 
   //WORKING
-  self.getCurrencyWithdrawHistory = async (options) => {
+  self.getCurrencyWithdrawHistory = async (coin, options) => {
+    const url = `/history/withdraw/${coin}/${paginationHandler(options)}`;
+    const response = await axiosRequest("GET", url, this.getHeaders(true));
+    return response;
+  }
+
+  //WORKING
+  self.getCurrencyDepositHistory = async (coin, options) => {
+    const url = `/history/deposit/${coin}/${paginationHandler(options)}`;
+    const response = await axiosRequest("GET", url, this.getHeaders(true));
+    return response;
+  }
+
+  //WORKING
+  self.getAllCurrencyWithdrawHistory = async (options) => {
     const url = `/history/withdraw/${paginationHandler(options)}`;
     const response = await axiosRequest("GET", url, this.getHeaders(true));
     return response;
@@ -236,6 +252,7 @@ function Swyftx(apiKey, demo=false) {
     const response = await axiosRequest("GET", url, this.getHeaders(true));
     return response;
   }
+
 
   //NEED TO WORK OUT
   self.getAllTransactionHistory = async (type, assetId, options) => {
@@ -278,6 +295,7 @@ function Swyftx(apiKey, demo=false) {
     const response = await axiosRequest("GET", `/markets/info/basic/${coin}/`, this.getHeaders(false));
     return response;
   }
+  
   //WORKING
   self.getDetailedInfo = async (coin) => {
     const response = await axiosRequest("GET", `/markets/info/detail/${coin}`, this.getHeaders(false));
