@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const baseUrl = "https://api.swyftx.com.au";
+let baseUrl = "https://api.swyftx.com.au";
 
 async function axiosRequest(method, url, headers={}, data={}) {
   const response = await axios(
@@ -24,7 +24,9 @@ function paginationHandler(options) {
   return "?" + optionsString;
 }
 
-function Swyftx(apiKey) {
+function Swyftx(apiKey, demo=false) {
+
+  if (demo) baseUrl = "https://api.demo.swyftx.com.au";
   const self = this;
   self.key = apiKey;
   self.accessToken = null;
@@ -51,11 +53,13 @@ function Swyftx(apiKey) {
     return response;
   }
 
+  //WORKING
   self.getScope = async () => {
     const response = await axiosRequest("GET", "/user/apiKeys/scope", this.getHeaders(true));
     return response;
   }
 
+  //WORKING
   self.getKeys = async () => {
     const response = await axiosRequest("GET", "/user/apiKeys", this.getHeaders(true));
     return response;
@@ -120,7 +124,7 @@ function Swyftx(apiKey) {
     return response;
   }
 
-  self.accountSettings = async (data) => {
+  self.getAccountSettings = async (data) => {
     const response = await axiosRequest("POST", "/user/settings", this.getHeaders(true), data);
     return response;
   }

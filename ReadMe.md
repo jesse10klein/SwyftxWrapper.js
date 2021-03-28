@@ -29,3 +29,12 @@ const main = async () => {
 
 main();
 ```
+
+For DEMO use, simply set demo to true when instantiating the wrapper
+
+```javascript
+
+const swyftx = Swyftx("YOUR_API_KEY", demo=true);
+
+```
+
