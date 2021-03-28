@@ -16,15 +16,13 @@ Since the Swyftx API is still in beta, it is subject to change at any time and t
 
 ## Installation
 
-To install swyftwrapper.js simple use NPM in a terminal
-
 ```bash
 npm install swyftxwrapper.js
 ```
 
 ## Usage
 
-To use the package, simply require it. Make sure to generate an access token before making any calls.
+To use the package, simply require it and instantiate with your API key. Make sure to generate an access token before making any calls.
 
 ```javascript
 const Swyftx = require("swyftxwrapper.js");
@@ -66,8 +64,9 @@ const newProfileSettings = {
     "analyticsOptOut": true,
     "toggleSMSRecovery": true
   }
+}
 
-const response = await swyftx.setAccountSettings(data);
+const response = await swyftx.setAccountSettings(newProfileSettings);
 console.log(response);
 ```
 
@@ -86,7 +85,7 @@ console.log(response);
 
 ### Get Detailed Info About a Specific Coin
 ```javascript
-const reponse = await swyftx.getDetailedInfo("LTC");
+const response = await swyftx.getDetailedInfo("LTC");
 console.log(response);
 ```
 
