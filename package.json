@@ -1,6 +1,6 @@
 {
   "name": "swyftxwrapper.js",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A JavaScript wrapper for the Swyftx Cryptocurrency trading platform API",
   "main": "SwyftxWrapper.js",
   "scripts": {
