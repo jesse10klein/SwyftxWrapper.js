@@ -3,7 +3,6 @@ const axios = require("axios");
 let baseUrl = "https://api.swyftx.com.au";
 
 async function axiosRequest(method, url, headers={}, data={}) {
-  console.log(url);
   const response = await axios(
                     {   
                       method, 
