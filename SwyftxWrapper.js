@@ -168,7 +168,7 @@ function Swyftx(apiKey, demo=false) {
 
   //NOT WORKING
   self.getTaxReport = async (start, end) => {
-    const response = await axiosRequest("GET", `/user/taxReports/?from=${start}&to=${end}`, this.getHeaders(true));
+    const response = await axiosRequest("GET", `/user/taxReport/?from=${start}&to=${end}`, this.getHeaders(true));
     return response;
   }
 
@@ -183,9 +183,9 @@ function Swyftx(apiKey, demo=false) {
   }
 
   //NOT WORKING
-  self.getLatestBars = async (base, secondary, resolution, side) => {
+  self.getLatestBar = async (base, secondary, resolution, side) => {
     const pagination = `?resolution=${resolution}`;
-    const url = `/charts/getLatestsBars/${base}/${secondary}/${side}/${pagination}`;
+    const url = `/charts/getLatestBar/${base}/${secondary}/${side}/${pagination}`;
     const response = await axiosRequest("GET", url, this.getHeaders(false));
     return response;
   }
@@ -255,8 +255,8 @@ function Swyftx(apiKey, demo=false) {
 
 
   //NEED TO WORK OUT
-  self.getAllTransactionHistory = async (type, assetId, options) => {
-    const url = `/history/all/${type}/${assetId}/${paginationHandler(options)}`;
+  self.getAllTransactionHistory = async () => {
+    const url = `/history/all/}`;
     const response = await axiosRequest("GET", url, this.getHeaders(true));
     return response;
   }
@@ -330,7 +330,7 @@ function Swyftx(apiKey, demo=false) {
 
   //WORKING
   self.listOrders = async (assetCode) => {
-    const response = await axiosRequest("GET", `/orders/${assetCode}`, this.getHeaders(true));
+    const response = await axiosRequest("GET", `/orders/`, this.getHeaders(true));
     return response;
   }
 

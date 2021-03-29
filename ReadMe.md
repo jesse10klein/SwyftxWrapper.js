@@ -119,12 +119,12 @@ None of the Addresses endpoints are supported in the current version, though thi
 * Get Statistics &#x2705;
 * Get Progress &#x2705;
 * Get Promotions &#x2705;
-* Get Tax Report &#10060;
+* Get Tax Report &#x2705;
 
 ### Charts
 
 * Get Bar Chart &#x2705;
-* Get Latest Bars &#10060;
+* Get Latest Bars &#x2705;
 * Get Chart Settings &#x2705;
 * Get Resolve Symbol &#x2705;
 
@@ -143,7 +143,7 @@ Not included in the wrapper as this part of the API is deprecated.
 * Get Currency Deposit History &#x2705;
 * Get All Withdraw History &#x2705;
 * Get All Deposit History &#x2705;
-* Get History &#10060;
+* Get History &#x2705;
 * Get Affiliate Payout History &#x2705;
 
 ### Limits
@@ -162,14 +162,14 @@ Not included in the wrapper as this part of the API is deprecated.
 * Get Pair Exchange Rate &#x2705;
 * Place Order &#x2705;
 * Dust Order &#x2705;
-* Cancel Order &#10060;
+* Cancel Order &#x2705;
 * Get Orders &#x2705;
 
 ### Recurring Orders
 
 * Get Recurring Orders &#x2705;
 * Get Recurring Order Stats &#x2705;
-* Create Recurring Order &#10060;
+* Create Recurring Order &#x2705;
 * Delete Recurring Order &#x2705;
 
 ### Compare
