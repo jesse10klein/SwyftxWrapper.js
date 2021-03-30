@@ -6,6 +6,8 @@ swyftxwrapper.js is a JavaScript wrapper for the Australian Cryptocurrency tradi
 
 Please be aware, this package is still in development and does not currently support all endpoints, but it aims to in the near future. 
 
+I highly recommend testing this package on the demo first.
+
 Please scroll towards the bottom of this page to find a list of all of the currently supported endpoints.
 
 You can refer to the [Swyftx API docs](https://docs.swyftx.com.au/) and the [swyftxwrapper.js Github Repo](https://github.com/jesse10klein/SwyftxWrapper.js) to find the parameters needed for each endpoint.
@@ -70,6 +72,20 @@ const response = await swyftx.setAccountSettings(newProfileSettings);
 console.log(response);
 ```
 
+### Place a Market Buy Order
+
+```javascript
+//NOTE that the default buy/sell currency is USD. Swyftx doesn't currently allow "AUD" to be specified through the API
+
+//Below is equivalent to 'buy $500 USD worth of Doge coin at the market price'
+const response = await swyftx.instantBuy("DOGE", 500);
+
+//To specify the amount in terms of the coin being bought and not fiat, set asset=false
+//Below is equivalent to 'buy 500 Doge coin at the market price'
+const reponse = await swyftx.instantBuy("DOGE", 500, asset=false);
+
+```
+
 ### Get Comparative CoinSpot Prices
 
 ```javascript
@@ -88,6 +104,7 @@ console.log(response);
 const response = await swyftx.getDetailedInfo("LTC");
 console.log(response);
 ```
+
 
 ## Endpoints Supported
 
