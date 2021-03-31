@@ -1,12 +1,14 @@
 const axios = require("axios");
 
-let baseUrl = "https://api.swyftx.com.au";
+const defaultUrl = "https://api.swyftx.com.au";
+const demoUrl = "https://api.demo.swyftx.com.au";
 
-async function axiosRequest(method, url, headers={}, data={}) {
+async function axiosRequest(method, url, headers={}, data={}, demo=false) {
+  const builtUrl = demo ? `${demoUrl}${url}` : `${defaultUrl}${url}`;
   const response = await axios(
                     {   
                       method, 
-                      url: `${baseUrl}${url}`, 
+                      url: builtUrl, 
                       headers, 
                       data
                     })
@@ -27,8 +29,8 @@ function paginationHandler(options) {
 
 function Swyftx(apiKey, demo=false) {
 
-  if (demo) baseUrl = "https://api.demo.swyftx.com.au";
   const self = this;
+  self.demo = demo;
   self.key = apiKey;
   self.accessToken = null;
 
@@ -194,38 +196,38 @@ function Swyftx(apiKey, demo=false) {
   //WORKING
   self.getCurrencyDepositHistory = async (asset, options) => {
     const url = `/history/deposit/${asset}/${paginationHandler(options)}`;
-    return await axiosRequest("GET", url, this.getHeaders(true));
+    return await axiosRequest("GET", url, this.getHeaders(true), demo=self.demo);
   }
 
   //WORKING
   self.getCurrencyWithdrawHistory = async (coin, options) => {
     const url = `/history/withdraw/${coin}/${paginationHandler(options)}`;
-    return await axiosRequest("GET", url, this.getHeaders(true));
+    return await axiosRequest("GET", url, this.getHeaders(true), demo=self.demo);
   }
 
   //WORKING
   self.getCurrencyDepositHistory = async (coin, options) => {
     const url = `/history/deposit/${coin}/${paginationHandler(options)}`;
-    return await axiosRequest("GET", url, this.getHeaders(true));
+    return await axiosRequest("GET", url, this.getHeaders(true), demo=self.demo);
   }
 
   //WORKING
   self.getAllCurrencyWithdrawHistory = async (options) => {
     const url = `/history/withdraw/${paginationHandler(options)}`;
-    return await axiosRequest("GET", url, this.getHeaders(true));
+    return await axiosRequest("GET", url, this.getHeaders(true), demo=self.demo);
   }
 
   //WORKING
   self.getAllCurrencyDepositHistory = async (options) => {
     const url = `/history/deposit/${paginationHandler(options)}`;
-    return await axiosRequest("GET", url, this.getHeaders(true));
+    return await axiosRequest("GET", url, this.getHeaders(true), demo=self.demo);
   }
 
 
   //NEED TO WORK OUT
   self.getAllTransactionHistory = async () => {
     const url = `/history/all/}`;
-    return await axiosRequest("GET", url, this.getHeaders(true));
+    return await axiosRequest("GET", url, this.getHeaders(true), demo=self.demo);
   }
 
   //WORKING
@@ -272,22 +274,23 @@ function Swyftx(apiKey, demo=false) {
 
   //NOT WORKING
   self.placeOrder = async (data) => {
-    return await axiosRequest("POST", "/orders", this.getHeaders(true), data);
+    return await axiosRequest("POST", "/orders", this.getHeaders(true), data, demo=self.demo);
   }
 
   //WORKING
   self.dustOrder = async (data) => {
-    return await axiosRequest("POST", "/user/balance/dust", this.getHeaders(true), data);
+    return await axiosRequest("POST", "/user/balance/dust", this.getHeaders(true), data, demo=self.demo);
   }
 
-  //CAN'T TEST YET
+  //WORKING
   self.cancelOrder = async (orderUuid) => {
-    return await axiosRequest("DELETE", `/orders/${orderUuid}`, this.getHeaders(true));
+    return await axiosRequest("DELETE", `/orders/${orderUuid}`, this.getHeaders(true), demo=self.demo);
   }
 
   //WORKING
   self.listOrders = async (assetCode) => {
-    return await axiosRequest("GET", `/orders/`, this.getHeaders(true));
+    const url = assetCode ? '/orders/${assetCode}' : '/orders';
+    return await axiosRequest("GET", url, this.getHeaders(true), demo=self.demo);
   }
 
   //Recurring Orders
