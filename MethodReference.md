@@ -1,7 +1,5 @@
 # swyftxwrapper.js Usage Guide
 
-This usage guide aims to explain some of the more complex endpoints of the wrapper. 
-
 ## Ordering
 
 When making an order using the wrapper, you should always keep in mind that the default primary currency is USD. So make sure to make any conversions if needed.
@@ -23,13 +21,13 @@ const response = return await self.placeOrder(data);
 
 ### Parameters for Order functions
 
-**primary** -> The primary currency - default is "USD"
+**primary**: The primary currency - default is "USD"
 
-**secondary** -> The coin you're buying or selling ("BTC", "LTC", "DOGE")
+**secondary**: The coin you're buying or selling ("BTC", "LTC", "DOGE")
 
-**quantity** -> the amount to trade. Which currency it is referring to depends on what the fiat variable is set to (default is to use fiat currency)
+**quantity**: the amount to trade. Which currency it is referring to depends on what the fiat variable is set to (default is to use fiat currency)
 
-**trigger** -> For limit/stop limit orders. The price at which to trigger the trade. This is in terms of primary/secondary
+**trigger**: For limit/stop limit orders. The price at which to trigger the trade. This is in terms of primary/secondary
 
 
 ## Examples
