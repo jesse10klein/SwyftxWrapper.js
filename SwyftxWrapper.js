@@ -331,26 +331,78 @@ function Swyftx(apiKey, demo=false) {
     return await axiosRequest("GET", `/messages/announcements/${limit}`, this.getHeaders(true));
   }
 
-  //Set asset false if you want quantity specified in terms of coin
-  self.instantBuy = async (secondary, quantity, asset=true, primary="USD") => {
+  //WORKING
+  self.instantBuy = async (secondary, quantity, fiat=true, primary="USD") => {
     const data = {
       "primary": primary,
       "secondary": secondary,
       "quantity": quantity,
-      "assetQuantity": asset ? primary : secondary,
+      "assetQuantity": fiat ? primary : secondary,
       "orderType": "MARKET_BUY"
     }
     return await self.placeOrder(data);
   }
 
-  //Set asset false if you want quantity specified in terms of coin
-  self.instantSell = async (secondary, quantity, asset=true, primary="USD") => {
+  //WORKING
+  self.instantSell = async (secondary, quantity, fiat=true, primary="USD") => {
     const data = {
       "primary": primary,
       "secondary": secondary,
       "quantity": quantity,
-      "assetQuantity": asset ? primary : secondary,
+      "assetQuantity": fiat ? primary : secondary,
       "orderType": "MARKET_SELL"
+    }
+    return await self.placeOrder(data);
+  }
+
+  //WORKING
+  self.placeLimitBuyOrder = async (secondary, quantity, trigger, fiat=true, primary="USD") => {
+    const data = {
+      primary,
+      secondary,
+      quantity,
+      "assetQuantity": fiat ? primary : secondary,
+      "orderType": "LIMIT_BUY",
+      trigger
+    }
+    return await self.placeOrder(data);
+  }
+
+  //WORKING
+  self.placeLimitSellOrder = async (secondary, quantity, trigger, fiat=true, primary="USD") => {
+    const data = {
+      primary,
+      secondary,
+      quantity,
+      "assetQuantity": fiat ? primary : secondary,
+      "orderType": "LIMIT_SELL",
+      trigger: 1/trigger
+    }
+    return await self.placeOrder(data);
+  }
+
+  //WORKING
+  self.placeStopLimitBuyOrder = async (secondary, quantity, trigger, fiat=true, primary="USD") => {
+    const data = {
+      primary,
+      secondary,
+      quantity,
+      "assetQuantity": fiat ? primary : secondary,
+      "orderType": "STOP_LIMIT_BUY",
+      trigger
+    }
+    return await self.placeOrder(data);
+  }
+
+  //WORKING
+  self.placeStopLimitSellOrder = async (secondary, quantity, trigger, fiat=true, primary="USD") => {
+    const data = {
+      primary,
+      secondary,
+      quantity,
+      "assetQuantity": fiat ? primary : secondary,
+      "orderType": "LIMIT_SELL",
+      trigger: 1/trigger
     }
     return await self.placeOrder(data);
   }

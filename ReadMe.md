@@ -2,15 +2,20 @@
 
 swyftxwrapper.js is a JavaScript wrapper for the Australian Cryptocurrency trading platform Swyftx's API.
 
+[Installation](#-Installation)
+
+[Examples](#-Example-Usage)
+
+[Supported Endpoints](#-Endpoints-Supported)
+
+
 ## Note
 
 Please be aware, this package is still in development and does not currently support all endpoints, but it aims to in the near future. 
 
-I highly recommend testing this package on the demo first.
-
 Please scroll towards the bottom of this page to find a list of all of the currently supported endpoints.
 
-You can refer to the [Swyftx API docs](https://docs.swyftx.com.au/) and the [swyftxwrapper.js Github Repo](https://github.com/jesse10klein/SwyftxWrapper.js) to find the parameters needed for each endpoint.
+If you're having trouble with some of the parameters for specific functions, you can refer to the [Swyftx API docs](https://docs.swyftx.com.au/). There is also a [Method Reference](https://github.com/jesse10klein/SwyftxWrapper.js/blob/main/MethodReference.md) page that has an ordering guide. All methods will be added to the reference soon.
 
 Since the Swyftx API is still in beta, it is subject to change at any time and the documentation may not always be up to date. Due to this, some of the endpoints in this wrapper may break from time to time, but I aim to fix any breaking changes as quickly as I can. If you notice an issue, feel free to raise it on [Github](https://github.com/jesse10klein/SwyftxWrapper.js)
 
@@ -54,6 +59,8 @@ const swyftx = Swyftx("YOUR_API_KEY", demo=true);
 
 Assuming wrapper has been instantiated as *swyftx*
 
+For a comprehensive ordering guide, please click [here](https://github.com/jesse10klein/SwyftxWrapper.js/blob/main/MethodReference.md)
+
 ### Change Profile Settings
 
 ```javascript
@@ -75,14 +82,14 @@ console.log(response);
 ### Place a Market Buy Order
 
 ```javascript
-//NOTE that the default buy/sell currency is USD. Swyftx doesn't currently allow "AUD" to be specified through the API
+//NOTE that the default buy/sell currency is USD.
 
 //Below is equivalent to 'buy $500 USD worth of Doge coin at the market price'
 const response = await swyftx.instantBuy("DOGE", 500);
 
-//To specify the amount in terms of the coin being bought and not fiat, set asset=false
+//To specify the amount in terms of the coin being bought and not fiat, set fiat=false
 //Below is equivalent to 'buy 500 Doge coin at the market price'
-const reponse = await swyftx.instantBuy("DOGE", 500, asset=false);
+const reponse = await swyftx.instantBuy("DOGE", 500, fiat=false);
 
 ```
 
