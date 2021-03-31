@@ -2,9 +2,9 @@
 
 swyftxwrapper.js is a JavaScript wrapper for the Australian Cryptocurrency trading platform Swyftx's API.
 
-* [Installation](#Installation)
-* [Examples](#Example-Usage)
-* [Supported Endpoints](#Endpoints-Supported)
+* [Installation](#installation)
+* [Examples](#example-usage)
+* [Supported Endpoints](#endpoints-supported)
 
 
 ## Note
