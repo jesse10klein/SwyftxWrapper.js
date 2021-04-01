@@ -13,7 +13,7 @@ async function axiosRequest(method, url, headers={}, data={}, demo=false) {
                       data
                     })
                     .then(resp => resp.data)
-                    .catch(err => {console.log(err);err.response.data.error});
+                    .catch(err => err.response.data.error);
   return response;
 }
 
