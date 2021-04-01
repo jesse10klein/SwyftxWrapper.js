@@ -125,7 +125,7 @@ function Swyftx(apiKey, demoMode=false) {
 
   //WORKING
   self.getAccountBalances = async () => {
-    return await axiosRequest("GET", "/user/balance", this.getHeaders(true));
+    return await axiosRequest("GET", "/user/balance", this.getHeaders(true), {}, demo=self.demo);
   }
 
   //WORKING
