@@ -19,9 +19,9 @@ async function axiosRequest(method, url, headers={}, data={}, demo=false) {
 
 function paginationHandler(options) {
   let optionsPresent = [];
-  if (options.limit) optionsPresent.push(`limit=${options.limit}`);
-  if (options.page) optionsPresent.push(`page=${options.page}`)
-  if (options.sortBy) optionsPresent.push(`sortBy=${options.sortBy}`)
+  for (option in options) {
+    optionsPresent.push(`${option}=${options[option]}`);
+  }
   const optionsString = optionsPresent.join("&");
   if (optionsPresent.length == 0) return "";
   return "?" + optionsString;
@@ -156,15 +156,15 @@ function Swyftx(apiKey, demoMode=false) {
   //Charts endpoints
 
   //WORKING
-  self.getBarChart = async (base, secondary, resolution, side, start, end, limit) => {
-    const pagination = `?resolution=${resolution}&timeStart=${start}&timeEnd=${end}&limie=${limit}`;
-    const url = `/charts/getBars/${base}/${secondary}/${side}${pagination}`;
+  self.getBarChart = async (base, secondary, side, paginationOptions) => {
+    const pagination = paginationHandler(paginationOptions);
+    const url = `/charts/getBars/${base}/${secondary}/${side}/${pagination}`;
     return await axiosRequest("GET", url, this.getHeaders(false));
   }
 
   //NOT WORKING
-  self.getLatestBar = async (base, secondary, resolution, side) => {
-    const pagination = `?resolution=${resolution}`;
+  self.getLatestBar = async (base, secondary, side, resolution) => {
+    const pagination = paginationHandler({resolution});
     const url = `/charts/getLatestBar/${base}/${secondary}/${side}/${pagination}`;
     return await axiosRequest("GET", url, this.getHeaders(false));
   }
@@ -194,20 +194,14 @@ function Swyftx(apiKey, demoMode=false) {
   //History endpoints
 
   //WORKING
+  self.getCurrencyWithdrawHistory = async (asset, options) => {
+    const url = `/history/withdraw/${asset}/${paginationHandler(options)}`;
+    return await axiosRequest("GET", url, this.getHeaders(true), {}, demo=self.demo);
+  }
+
+  //WORKING
   self.getCurrencyDepositHistory = async (asset, options) => {
     const url = `/history/deposit/${asset}/${paginationHandler(options)}`;
-    return await axiosRequest("GET", url, this.getHeaders(true), {}, demo=self.demo);
-  }
-
-  //WORKING
-  self.getCurrencyWithdrawHistory = async (coin, options) => {
-    const url = `/history/withdraw/${coin}/${paginationHandler(options)}`;
-    return await axiosRequest("GET", url, this.getHeaders(true), {}, demo=self.demo);
-  }
-
-  //WORKING
-  self.getCurrencyDepositHistory = async (coin, options) => {
-    const url = `/history/deposit/${coin}/${paginationHandler(options)}`;
     return await axiosRequest("GET", url, this.getHeaders(true), {}, demo=self.demo);
   }
 
@@ -223,10 +217,9 @@ function Swyftx(apiKey, demoMode=false) {
     return await axiosRequest("GET", url, this.getHeaders(true), {}, demo=self.demo);
   }
 
-
-  //NEED TO WORK OUT
-  self.getAllTransactionHistory = async () => {
-    const url = `/history/all/`;
+  //WORKING
+  self.getAllTransactionHistory = async (paginationOptions) => {
+    const url = `/history/all/${paginationHandler(paginationOptions)}`;
     return await axiosRequest("GET", url, this.getHeaders(true), {}, demo=self.demo);
   }
 
@@ -246,9 +239,9 @@ function Swyftx(apiKey, demoMode=false) {
 
   //Market endpoints
 
-  //WORKING
-  self.getLiveRatesAUD = async () => {
-    return await axiosRequest("GET", "/live-rates/1", this.getHeaders(false));
+  //Default to USD, but can set asset 
+  self.getLiveRates = async (primaryAsset="36") => {
+    return await axiosRequest("GET", `/live-rates/${primaryAsset}`, this.getHeaders(false));
   }
 
   //WORKING
@@ -256,13 +249,13 @@ function Swyftx(apiKey, demoMode=false) {
     return await axiosRequest("GET", "/markets/assets", this.getHeaders(false));
   }
   //WORKING
-  self.getBasicInfo = async (coin) => {
-    return await axiosRequest("GET", `/markets/info/basic/${coin}/`, this.getHeaders(false));
+  self.getBasicInfo = async (asset) => {
+    return await axiosRequest("GET", `/markets/info/basic/${asset}/`, this.getHeaders(false));
   }
   
   //WORKING
-  self.getDetailedInfo = async (coin) => {
-    return await axiosRequest("GET", `/markets/info/detail/${coin}`, this.getHeaders(false));
+  self.getDetailedInfo = async (asset) => {
+    return await axiosRequest("GET", `/markets/info/detail/${asset}`, this.getHeaders(false));
   }
 
   //Orders endpoints
@@ -325,14 +318,19 @@ function Swyftx(apiKey, demoMode=false) {
   //Message endpoints
 
   //WORKING
-  self.getLatestMessages = async (limit=10) => {
+  self.getLatestMessages = async (limit=25) => {
     return await axiosRequest("GET", `/messages/latest/${limit}`, this.getHeaders(true));
   }
 
   //WORKING
-  self.getLatestAnnouncements = async (limit=10) => {
+  self.getLatestAnnouncements = async (limit=25) => {
     return await axiosRequest("GET", `/messages/announcements/${limit}`, this.getHeaders(true));
   }
+
+  self.getApiInfo = async () => {
+    return await axiosRequest("GET", "/info", this.getHeaders(true))
+  }
+
 
   //WORKING
   self.instantBuy = async (secondary, quantity, fiat=true, primary="USD") => {

@@ -1,10 +1,392 @@
 # swyftxwrapper.js Usage Guide
 
-## Ordering
+**[Authentication](#authentication-endpoints)**
 
-When making an order using the wrapper, you should always keep in mind that the default primary currency is USD. So make sure to make any conversions if needed.
+**[Account](#account-endpoints)**
 
-**For ease of use** I have wrapped some common ordering patterns in methods which are explained below. If for some reason you'd like to use the generic ordering endpoint, this is still available and is used like this:
+**[Charts](#charts-endpoints)**
+
+**[Funds](#funds-endpoints)**
+
+**[History](#history-endpoints)**
+
+**[Limits](#limits-endpoints)**
+
+**[Markets](#markets-endpoints)**
+
+**[Orders](#orders-endpoints)**
+
+**[Recurring Orders](#recurring-orders-endpoints)**
+
+**[Compare](#compare-endpoints)**
+
+**[Messages](#messages-endpoints)**
+
+**[Info](#info-endpoints)**
+
+**[Ordering - In Depth](#ordering-in-depth)**
+
+
+## Authentication Endpoints
+
+### Refresh Access Token
+
+```javascript
+const token = await swyftx.generateRefreshToken();
+```
+
+### Logout
+
+```javascript
+const response = await swyftx.logout();
+```
+### Get Scope
+
+```javascript
+const scope = await swyftx.getScope();
+```
+
+### Get Keys
+
+```javascript
+const keys = await swyftx.getKeys();
+```
+
+### Revoke Key
+
+**keyId**: The Id of the key you wish to revoke
+
+```javascript
+const keyId = "YOUR_KEY_ID"
+const response = await swyftx.revokeKey(keyId);
+```
+### Revoke All Keys
+
+```javascript
+const response = await swyftx.revokeAllKeys();
+```
+
+## Account Endpoints
+
+### Get Profile
+
+```javascript
+const profileDetails = await swyftx.getProfile();
+```
+### Account Settings
+
+**data**: account settings to change
+
+```javascript
+const data = {
+  "favouriteAsset": {
+    "assetId": 3,
+    "favStatus": true
+  },
+  "analyticsOptOut": false,
+  "toggleSMSRecovery": true
+};
+const response = await swyftx.setAccountSettings(data);
+```
+### Get Verification Info
+
+```javascript
+const response = await swyftx.getVerificationInfo();
+```
+
+### Start Email Verification
+
+```javascript
+const response = await swyftx.startEmailVerification();
+```
+### Check Email Verification Status
+
+```javascript
+const response = await swyftx.checkEmailVerificationStatus();
+```
+
+### Get Affiliation Info
+
+```javascript
+const affiliationInfo = await swyftx.getAffiliationInfo();
+```
+### Get Account Balances
+
+```javascript
+const balances = await swyftx.getAccountBalances();
+```
+### Set Currency
+
+**data**: An object including the asset you want as your default currency
+
+```javascript
+const data = {
+  "profile": {
+    "defaultAsset": 1
+  }
+};
+const response = await swyftx.setCurrecny(data);
+```
+### Get Statistics
+
+```javascript
+const response = await swyftx.getStatistics();
+```
+### Get Progress
+
+```javascript
+const response = await swyftx.getProgress();
+```
+### Get Promotions
+
+```javascript
+const response = await swyftx.getPromotions();
+```
+### Get Tax Report
+
+**start**: Start Date for tax report in ms
+
+**end**: End date for tax report in ms
+
+```javascript
+const start = 1593518400000;
+const end = 1593539400000;
+const response = await swyftx.getTaxReport(start, end);
+```
+
+## Charts Endpoints
+
+### Get Bar Chart
+
+**base**: Primary Asset
+
+**secondary**: Secondary Asset
+
+**side**: 'ask' or 'bid'
+
+**paginationOptions**: Pagination object - contains resolution, timeStart, timeEnd and limit
+
+**resolution**: How long? (1m, 5m, 1h, 4h, 1d)
+
+**start** (optional): Time to start from, in timestamp form
+
+**end** (optional): Time to end search, in timestamp form
+
+**limit** (optional): The maximum number of bars returned
+
+```javascript
+const paginationOptions = {
+  resolution: "1m",
+  timeStart: 1517458855347,
+  timeEnd: 1517458865347,
+  limit: 50
+}
+const barChart = await swyftx.getBarChart("USD", "LTC", "ask", paginationOptions);
+```
+
+### Get Latest Bars
+
+**base**: Primary Asset
+
+**secondary**: Secondary Asset
+
+**side**: 'ask' or 'bid'
+
+**resolution**: How long? (1m, 5m, 1h, 4h, 1d)
+
+```javascript
+const latestbar = await swyftx.getLatestBar("USD", "BTC", "ask", "5m");
+```
+### Get Chart Settings
+
+```javascript
+const chartSettings = await swyftx.getChartSettings();
+```
+### Get Resolve Symbol
+
+**base**: Primary Asset
+
+**secondary**: Secondary Asset
+
+```javascript
+const resolveSymbol = await swyftx.getResolveSymbol("USD", "ADA");
+```
+
+## Funds Endpoints
+
+### Request Withdrawal
+
+**asset**: The asset code for the currency you want to withdraw
+
+**data**: Contains quanitity, address_id and reason
+
+**quantity**: The amount of the currency you'd like to withdraw
+
+**address_id**: The id of the address to send the currency to
+
+**reason**: Reason for withdrawal (Enum)
+
+```javascript
+const data = {
+  "quantity": 1.243,
+  "address_id": 3,
+  "reason": 1
+}
+const response = await swyftx.requestWithdrawal("BTC", data);
+```
+
+### Check Withdrawal Permissions
+
+**asset**: The asset code for the currency you want to check permissions on
+
+```javascript
+const response = await swyftx.checkWithdrawalPermissions("LTC");
+```
+
+## History Endpoints
+
+All History Endpoints use Pagination with these parameters
+
+**limit**: Number of entries to return
+
+**page**: Page to start on
+
+**sortBy**: Field and direction to sort on (prefix with +/- to indicate direction)
+
+#### Pagination Object Example
+
+```javascript
+const paginationOptions = {
+  limit: 50,
+  page: 0,
+  sortBy: "+quantity"
+}
+```
+
+### Currency Withdraw History
+
+**asset**: The asset code for the currency you want to withdraw
+
+```javascript
+const history = await swyftx.getCurrencyWithdrawHistory("BTC", paginationOptions);
+```
+
+### Currency Deposit History
+
+**asset**: The asset code for the currency you want to withdraw
+
+```javascript
+const history = await swyftx.getCurrencyDepositHistory("BTC", paginationOptions);
+```
+
+### All Withdraw History
+```javascript
+const history = await swyftx.getAllCurrencyWithdrawHistory(paginationOptions);
+```
+
+### All Deposit History
+
+```javascript
+const history = await swyftx.getAllCurrencyDepositHistory(paginationOptions);
+```
+
+### All Transaction History
+
+```javascript
+const history = await swyftx.getAllTranscationHistory(paginationOptions);
+```
+
+### Affiliate Payout History
+
+```javascript
+const history = await swyftx.getAffiliatePayoutHistory(paginationOptions);
+```
+
+## Limits Endpoints
+
+### Withdrawal Limits
+
+```javascript
+const limits = await swyftx.getWithdrawalLimits();
+```
+
+## Markets Endpoints
+
+### Live Rates
+
+**primaryAsset**: The asset to view the live rates in (default is USD)
+
+```javascript
+//Live rates defaults to USD
+const liveRates = await swyftx.getLiveRates();
+
+//Specify rates in terms of AUD (assetId = 1)
+const liveRatesAUD = await swyftx.getLiveRates(1);
+```
+
+### Market Assets
+
+```javascript
+const marketAssets = await swyftx.getMarketAssets();
+```
+
+### Basic Asset Info
+
+**asset**: The asset you would like information on
+
+```javascript
+const basicInfo = await swyftx.getBasicInfo("LTC");
+```
+
+### Detailed Asset Info
+
+**asset**: The asset you would like information on
+
+```javascript
+const limits = await swyftx.getDetailedInfo("LTC");
+```
+
+## Orders Endpoints
+
+### Pair Echange Rate
+
+**data**: Includes buy, sell, amount and limit
+
+**buy**: The currency you would be buying
+
+**sell**: The currency you would be selling
+
+**amount**: The amount to limit the exchange at
+
+**limit**: The currency that the limit will stop at
+
+```javascript
+const data = {
+  "buy": "BTC",
+  "sell": "USD",
+  "amount": 1000,
+  "limit": "USD"
+}
+const pairExchangeRate = await swyftx.getPairExchangeRate(data);
+```
+
+### Place Order
+
+For documentation on placing an order, see the Ordering section
+
+**data**: contains primary, secondary, quantity, assetQuantity, orderType and trigger
+
+**primary**: The primary currency to buy/sell
+
+**secondary**: The secondary currency to buy/sell
+
+**quantity**: The amount of the currency to trade
+
+**assetQuantity**: Which asset the quantity is in
+
+**orderType**: ENUM (MARKET_BUY, MARKET_SELL, LIMIT_BUY, LIMIT_SELL, STOP_LIMIT_BUY, STOP_LIMIT_SELL)
+
+**trigger**: When to execute the trade - in terms of primary/secondary
 
 ```javascript
 //Buy 100 ADA at the current USD market price
@@ -18,6 +400,142 @@ const data = {
 }
 const response = return await self.placeOrder(data);
 ```
+
+### Dust Order
+
+**data**: An object cointaining a *selected* array with all of the currencies to dust
+
+```javascript
+const data = {
+  "selected": [
+    1, 5, 10
+  ]
+}
+const response = await swyftx.dustOrder(data);
+```
+
+### Cancel Order
+
+**orderUuid**: The UUID of the order that you want to cancel
+
+```javascript
+const orderUuid = "YOUR_ORDER_UUID";
+const response = await swyftx.cancelOrder(orderUuid);
+```
+
+### List Orders
+
+**assetCode** (optional): The asset that you'd like to see orders for
+
+```javascript
+//Get all orders
+const allOrders = await swyftx.listOrders();
+
+//Orders for LTC
+const ordersLTC = await swyftx.listOrders("LTC");
+```
+
+## Recurring Orders Endpoints
+
+### Get Recurring Orders
+
+```javascript
+const recurringOrders = await swyftx.getRecurringOrders();
+```
+
+### Get Recurring Orders Stats
+
+**templateUuid**: The UUID for the recurring order template you wants stats on
+
+```javascript
+const templateUuid = "YOUR_TEMPLATE_UUID";
+const recurringOrderStats = await swyftx.getRecurringOrderStats(templateUuid);
+```
+
+### Create Recurring Order
+
+**data**: Contains template, primaryAssetId, label and source
+
+**template**: An object with assetIds and their percentage make up of the order
+
+**primaryAssetId**: The asset to use to pay for the recurring order
+
+**label**: The name for the recurring order template
+
+**source**: The source of the recurring order (only DEPOSIT is accepted at the current stage)
+
+```javascript
+const data = {
+  "template": {
+    "3": 50,
+    "5": 50
+  },
+  "primaryAssetId": "1",
+  "label": "BTC & ETH",
+  "source": "DEPOSIT"
+}
+const response = await swyftx.createRecurringOrder(data);
+```
+
+### Delete Recurring Order
+
+**templateUuid**: The UUID for the recurring order template you want to delete
+
+```javascript
+const templateUuid = "YOUR_TEMPLATE_UUID";
+const recurringOrderStats = await swyftx.deleteRecurringOrder(templateUuid);
+```
+
+## Compare Endpoints
+
+### Compare Exchange
+
+**exchange**: The exchange to compare (currently only 'coinspot' and 'swyftx')
+
+```javascript
+const exchange = "coinspot";
+const comparison = await swyfyx.compareExchange(exchange);
+```
+
+## Message Endpoints
+
+Both endpoints have a single parameter
+
+**limit**: The amount of entries to retrieve (default is 25)
+
+### Get Latest Messages
+
+```javascript
+//Get 25 newest messages
+const messages = await swyftx.getLatestMessages();
+
+//Get 80 newest messages
+const messages = await swyftx.getLatestMessages(80);
+```
+
+### Get Latest Announcements
+
+```javascript
+//Get 25 newest messages
+const messages = await swyftx.getLatestAnnouncements();
+
+//Get 80 newest messages
+const messages = await swyftx.getLatestAnnouncements(80);
+```
+
+## Info Endpoint
+
+### Get Api Info
+
+```javascript
+const apiInfo = await swyftx.getApiInfo();
+```
+
+## ORDERING IN DEPTH
+
+When making an order using the wrapper, you should always keep in mind that the default primary currency is USD. So make sure to make any conversions if needed.
+
+**For ease of use** I have wrapped some common ordering patterns in methods which are explained below.
 
 ### Parameters for Order functions
 
