@@ -42,6 +42,8 @@ function Swyftx(apiKey, demoMode=false) {
     return headers;
   }
 
+  self.setDemoMode = (demoMode) => self.demo = demoMode;
+
   //Authentication endpoints
 
   self.generateRefreshToken = async () => {

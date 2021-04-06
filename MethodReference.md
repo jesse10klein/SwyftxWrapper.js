@@ -26,6 +26,13 @@
 
 **[Ordering - In Depth](#ordering-in-depth)**
 
+### **Assuming that the Swyftx Wrapper has been instantiates as *swyftx***
+
+### Toggle Demo Mode
+
+```javascript
+swyftx.setDemoMode(false);
+```
 
 ## Authentication Endpoints
 

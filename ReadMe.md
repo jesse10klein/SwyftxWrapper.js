@@ -6,7 +6,6 @@ swyftxwrapper.js is a JavaScript wrapper for the Australian Cryptocurrency tradi
 * [Examples](#example-usage)
 * [Supported Endpoints](#endpoints-supported)
 
-
 ## Note
 
 Please be aware, this package is still in development and does not currently support all endpoints, but it aims to in the near future. 
@@ -28,6 +27,8 @@ npm install swyftxwrapper.js
 ## Usage
 
 To use the package, simply require it and instantiate with your API key. Make sure to generate an access token before making any calls.
+
+In depth endpoint guide - [Method Reference](https://github.com/jesse10klein/SwyftxWrapper.js/blob/main/MethodReference.md)
 
 ```javascript
 const Swyftx = require("swyftxwrapper.js");
