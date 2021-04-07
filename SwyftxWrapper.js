@@ -3,18 +3,8 @@ const axios = require("axios");
 const defaultUrl = "https://api.swyftx.com.au";
 const demoUrl = "https://api.demo.swyftx.com.au";
 
-async function axiosRequest(method, url, headers={}, data={}, demo=false) {
-  const builtUrl = demo ? `${demoUrl}${url}` : `${defaultUrl}${url}`;
-  const response = await axios(
-                    {   
-                      method, 
-                      url: builtUrl, 
-                      headers, 
-                      data
-                    })
-                    .then(resp => resp.data)
-                    .catch(err => err.response.data.error);
-  return response;
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function paginationHandler(options) {
@@ -27,12 +17,34 @@ function paginationHandler(options) {
   return "?" + optionsString;
 }
 
-function Swyftx(apiKey, demoMode=false) {
+function Swyftx(apiKey, demoMode=false, autoWaitOnRateLimit=false) {
 
   const self = this;
   self.demo = demoMode;
   self.key = apiKey;
   self.accessToken = null;
+  self.autoWaitOnRateLimit = autoWaitOnRateLimit;
+
+
+  async function axiosRequest(method, url, headers={}, data={}, demo=false) {
+    const builtUrl = demo ? `${demoUrl}${url}` : `${defaultUrl}${url}`;
+    const response = await axios(
+                      {   
+                        method, 
+                        url: builtUrl, 
+                        headers, 
+                        data
+                      })
+                      .then(resp => resp.data)
+                      .catch(err => err.response.data.error);
+    if (self.autoWaitOnRateLimit && response.error == 'RateLimit') {
+      await sleep(5000);
+      return axiosRequest(method, url, headers, data, demo);
+    }
+    return response;
+  }
+
+
 
   self.getAccessToken = () => self.accessToken;
 
@@ -269,12 +281,12 @@ function Swyftx(apiKey, demoMode=false) {
 
   //NOT WORKING
   self.placeOrder = async (data) => {
-    return await axiosRequest("POST", "/orders", this.getHeaders(true), data, {}, demo=self.demo);
+    return await axiosRequest("POST", "/orders", this.getHeaders(true), data, demo=self.demo);
   }
 
   //WORKING
   self.dustOrder = async (data) => {
-    return await axiosRequest("POST", "/user/balance/dust", this.getHeaders(true), data, {}, demo=self.demo);
+    return await axiosRequest("POST", "/user/balance/dust", this.getHeaders(true), data, demo=self.demo);
   }
 
   //WORKING
