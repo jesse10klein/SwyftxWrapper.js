@@ -132,7 +132,7 @@ const data = {
     "defaultAsset": 1
   }
 };
-const response = await swyftx.setCurrecny(data);
+const response = await swyftx.setCurrency(data);
 ```
 ### Get Statistics
 
@@ -300,7 +300,7 @@ const history = await swyftx.getAllCurrencyDepositHistory(paginationOptions);
 ### All Transaction History
 
 ```javascript
-const history = await swyftx.getAllTranscationHistory(paginationOptions);
+const history = await swyftx.getAllTransactionHistory(paginationOptions);
 ```
 
 ### Affiliate Payout History
@@ -342,6 +342,10 @@ const marketAssets = await swyftx.getMarketAssets();
 **asset**: The asset you would like information on
 
 ```javascript
+//Get for all assets
+const basicInfo = await swyftx.getBasicInfo();
+
+//Get for a specific asset
 const basicInfo = await swyftx.getBasicInfo("LTC");
 ```
 
@@ -350,7 +354,11 @@ const basicInfo = await swyftx.getBasicInfo("LTC");
 **asset**: The asset you would like information on
 
 ```javascript
-const limits = await swyftx.getDetailedInfo("LTC");
+//Get for all assets
+const detailedInfo = await swyftx.getDetailedInfo();
+
+//Get for a specific asset
+const detailedInfo = await swyftx.getDetailedInfo("LTC");
 ```
 
 ## Orders Endpoints
@@ -553,6 +561,8 @@ When making an order using the wrapper, you should always keep in mind that the 
 **quantity**: the amount to trade. Which currency it is referring to depends on what the fiat variable is set to (default is to use fiat currency)
 
 **trigger**: For limit/stop limit orders. The price at which to trigger the trade. This is in terms of primary/secondary
+
+**fiat**: The currency with which to trade. Setting to true will trade using priamry, false will use the secondary
 
 
 ## Examples

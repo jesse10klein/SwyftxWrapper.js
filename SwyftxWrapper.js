@@ -28,22 +28,24 @@ function Swyftx(apiKey, demoMode=false, autoWaitOnRateLimit=false) {
 
   async function axiosRequest(method, url, headers={}, data={}, demo=false) {
     const builtUrl = demo ? `${demoUrl}${url}` : `${defaultUrl}${url}`;
-    const response = await axios(
-                      {   
-                        method, 
-                        url: builtUrl, 
-                        headers, 
-                        data
-                      })
+    const response = await axios({method, url: builtUrl, headers, data})
                       .then(resp => resp.data)
-                      .catch(err => err.response.data.error);
+                      .catch(err => {
+                        if (!err.response) {
+                          return {
+                            error: "Axios Error/Swyftx Contact Error", 
+                            message: "Couldn't reach endpoint. If this is persistent contact the package maintainers." 
+                                     + " It is likely this endpoint has changed"
+                          };
+                        }
+                        return err.response.data.error;
+                      });
     if (self.autoWaitOnRateLimit && response.error == 'RateLimit') {
       await sleep(5000);
       return axiosRequest(method, url, headers, data, demo);
     }
     return response;
   }
-
 
 
   self.getAccessToken = () => self.accessToken;
@@ -59,7 +61,12 @@ function Swyftx(apiKey, demoMode=false, autoWaitOnRateLimit=false) {
   //Authentication endpoints
 
   self.generateRefreshToken = async () => {
-    const response = await axios.post('https://api.swyftx.com.au/auth/refresh/', {apiKey: self.key});
+    const response = await axios.post('https://api.swyftx.com.au/auth/refresh/', {apiKey: self.key})
+                      .catch(err => {
+                        console.log("Refresh token couldn't be generated. Please contact package maintainers if you see this");
+                        return(err);
+                      });
+    if (response.isAxiosError) return false;
     const accessToken = response.data.accessToken;
     self.accessToken = accessToken;
     return accessToken;
@@ -264,12 +271,14 @@ function Swyftx(apiKey, demoMode=false, autoWaitOnRateLimit=false) {
   }
   //WORKING
   self.getBasicInfo = async (asset) => {
-    return await axiosRequest("GET", `/markets/info/basic/${asset}/`, this.getHeaders(false));
+    const url = asset ? asset : "";
+    return await axiosRequest("GET", `/markets/info/basic/${url}`, this.getHeaders(false));
   }
   
   //WORKING
   self.getDetailedInfo = async (asset) => {
-    return await axiosRequest("GET", `/markets/info/detail/${asset}`, this.getHeaders(false));
+    const url = asset ? asset : "";
+    return await axiosRequest("GET", `/markets/info/detail/${url}`, this.getHeaders(false));
   }
 
   //Orders endpoints
