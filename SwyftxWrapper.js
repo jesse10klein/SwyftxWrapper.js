@@ -26,7 +26,7 @@ function Swyftx(apiKey, demoMode=false, autoWaitOnRateLimit=false) {
   self.autoWaitOnRateLimit = autoWaitOnRateLimit;
 
 
-  async function axiosRequest(method, url, headers={}, data={}, demo=false) {
+  async function axiosRequest(method, url, headers={}, data={}, demo=false, retryCounter=3) {
     const builtUrl = demo ? `${demoUrl}${url}` : `${defaultUrl}${url}`;
     let response = null;
     try {
@@ -44,9 +44,12 @@ function Swyftx(apiKey, demoMode=false, autoWaitOnRateLimit=false) {
                         });  
       if (self.autoWaitOnRateLimit && response.error == 'RateLimit') {
         await sleep(5000);
-        return axiosRequest(method, url, headers, data, demo);
+        return await axiosRequest(method, url, headers, data, demo);
       }
     } catch (err) {
+      if (retryCounter > 0) {
+        return await axiosRequest(method, url, headers, data, demo, --retryCounter);
+      }
       response = {
         error: "EXCEPTION OCCURRED",
         message: `An error occured, ${err}`
