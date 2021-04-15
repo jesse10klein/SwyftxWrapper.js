@@ -28,21 +28,29 @@ function Swyftx(apiKey, demoMode=false, autoWaitOnRateLimit=false) {
 
   async function axiosRequest(method, url, headers={}, data={}, demo=false) {
     const builtUrl = demo ? `${demoUrl}${url}` : `${defaultUrl}${url}`;
-    const response = await axios({method, url: builtUrl, headers, data})
-                      .then(resp => resp.data)
-                      .catch(err => {
-                        if (!err.response) {
-                          return {
-                            error: "Axios Error/Swyftx Contact Error", 
-                            message: "Couldn't reach endpoint. If this is persistent contact the package maintainers." 
-                                     + " It is likely this endpoint has changed"
-                          };
-                        }
-                        return err.response.data.error;
-                      });
-    if (self.autoWaitOnRateLimit && response.error == 'RateLimit') {
-      await sleep(5000);
-      return axiosRequest(method, url, headers, data, demo);
+    let response = null;
+    try {
+      response = await axios({method, url: builtUrl, headers, data})
+                        .then(resp => resp.data)
+                        .catch(err => {
+                          if (!err.response) {
+                            return {
+                              error: "Axios Error/Swyftx Contact Error", 
+                              message: "Couldn't reach endpoint. If this is persistent contact the package maintainers." 
+                                      + " It is likely this endpoint has changed"
+                            };
+                          }
+                          return err.response.data.error;
+                        });  
+      if (self.autoWaitOnRateLimit && response.error == 'RateLimit') {
+        await sleep(5000);
+        return axiosRequest(method, url, headers, data, demo);
+      }
+    } catch (err) {
+      response = {
+        error: "EXCEPTION OCCURRED",
+        message: `An error occured, ${err}`
+      };
     }
     return response;
   }
