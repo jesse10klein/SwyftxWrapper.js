@@ -83,179 +83,147 @@ function Swyftx(apiKey, demoMode=false, autoWaitOnRateLimit=false) {
     return accessToken;
   }
 
-  //WORKING
   self.logout = async () => {
     return await axiosRequest("POST", "/auth/logout", this.getHeaders(true));
   }
 
-  //WORKING
   self.getScope = async () => {
     return await axiosRequest("GET", "/user/apiKeys/scope", this.getHeaders(true));
   }
 
-  //WORKING
   self.getKeys = async () => {
     return await axiosRequest("GET", "/user/apiKeys", this.getHeaders(true));
   }
 
-  //WORKING
   self.revokeKey = async (data) => {
     return await axiosRequest("POST", "/user/apiKeys/revoke", this.getHeaders(true), data);
   }
 
-  //WORKING
   self.revokeAllKeys = async () => {
     return await axiosRequest("POST", "/user/apiKeys/revokeAll", this.getHeaders(true));
   }
 
   //Account endpoints
 
-  //WORKING
   self.getProfile = async () => {
     return await axiosRequest("GET", "/user", this.getHeaders(true));
   }
 
-  //WORKING
   self.setAccountSettings = async (data) => {
     return await axiosRequest("POST", "/user/settings", this.getHeaders(true), data);
   }
 
-  //WORKING
   self.getVerificationInfo = async () => {
     return await axiosRequest("GET", "/user/verification", this.getHeaders(true));
   }
 
-  //NOT WORKING
   self.getGreenIdVerification = async (data) => {
     return await axiosRequest("GET", "/user/verification/storeGreenId/", this.getHeaders(true), data);
   }
 
-  //WORKING
   self.startEmailVerification = async () => {
     return await axiosRequest("POST", "/user/verification/email", this.getHeaders(true));
   }
 
-  //WORKING
   self.checkEmailVerificationStatus = async () => {
     return await axiosRequest("GET", "/user/verification/email", this.getHeaders(true));
   }
 
-  //NOT WORKING
   self.checkPhoneVerificationStatus = async (token) => {
     return await axiosRequest("GET", `/user/verification/phone/${token}`, this.getHeaders(true));
   }
 
-  //WORKING
   self.startPhoneVerification = async (token) => {
     return await axiosRequest("POST", `/user/verification/phone/${token}`, this.getHeaders(true));
   }
 
-  //WORKING
   self.getAffiliationInfo = async () => {
     return await axiosRequest("GET", "/user/affiliations", this.getHeaders(true));
   }
 
-  //WORKING
   self.getAccountBalances = async () => {
-    return await axiosRequest("GET", "/user/balance", this.getHeaders(true), {}, demo=self.demo);
+    return await axiosRequest("GET", "/user/balance", this.getHeaders(true), {}, self.demo);
   }
 
-  //WORKING
   self.setCurrency = async (data) => {
     return await axiosRequest("POST", "/user/currency", this.getHeaders(true), data);
   }
 
-  //WORKING
   self.getStatistics = async () => {
     return await axiosRequest("GET", "/user/statistics", this.getHeaders(true));
   }
 
-  //WORKING
   self.getProgress = async () => {
     return await axiosRequest("GET", "/user/progress", this.getHeaders(true));
   }
 
-  //WORKING
   self.getPromotions = async () => {
     return await axiosRequest("GET", "/user/promotions", this.getHeaders(true));
   }
 
-  //NOT WORKING
   self.getTaxReport = async (start, end) => {
     return await axiosRequest("GET", `/user/taxReport/?from=${start}&to=${end}`, this.getHeaders(true));
   }
 
   //Charts endpoints
 
-  //WORKING
   self.getBarChart = async (base, secondary, side, paginationOptions) => {
     const pagination = paginationHandler(paginationOptions);
     const url = `/charts/getBars/${base}/${secondary}/${side}/${pagination}`;
     return await axiosRequest("GET", url, this.getHeaders(false));
   }
 
-  //NOT WORKING
   self.getLatestBar = async (base, secondary, side, resolution) => {
     const pagination = paginationHandler({resolution});
     const url = `/charts/getLatestBar/${base}/${secondary}/${side}/${pagination}`;
     return await axiosRequest("GET", url, this.getHeaders(false));
   }
 
-  //WORKING
   self.getChartSettings = async () => {
     return await axiosRequest("GET", "/charts/settings", this.getHeaders(false));
   }
 
-  //WORKING
   self.getResolveSymbol = async (base, secondary) => {
     return await axiosRequest("GET", `/charts/resolveSymbol/${base}/${secondary}`, this.getHeaders(false));
   }
 
   //Funds endpoints
 
-  //WORKING
   self.requestWithdrawal = async (assetCode, data) => {
     return await axiosRequest("POST", `/funds/withdraw/${assetCode}`, this.getHeaders(true), data);
   }
 
-  //WORKING
   self.checkWithdrawalPermissions = async (assetCode) => {
     return await axiosRequest("GET", `/funds/withdrawalPermissions/${assetCode}`, this.getHeaders(true))
   }
 
   //History endpoints
 
-  //WORKING
   self.getCurrencyWithdrawHistory = async (asset, options) => {
     const url = `/history/withdraw/${asset}/${paginationHandler(options)}`;
-    return await axiosRequest("GET", url, this.getHeaders(true), {}, demo=self.demo);
+    return await axiosRequest("GET", url, this.getHeaders(true), {}, self.demo);
   }
 
-  //WORKING
   self.getCurrencyDepositHistory = async (asset, options) => {
     const url = `/history/deposit/${asset}/${paginationHandler(options)}`;
-    return await axiosRequest("GET", url, this.getHeaders(true), {}, demo=self.demo);
+    return await axiosRequest("GET", url, this.getHeaders(true), {}, self.demo);
   }
 
-  //WORKING
   self.getAllCurrencyWithdrawHistory = async (options) => {
     const url = `/history/withdraw/${paginationHandler(options)}`;
-    return await axiosRequest("GET", url, this.getHeaders(true), {}, demo=self.demo);
+    return await axiosRequest("GET", url, this.getHeaders(true), {}, self.demo);
   }
 
-  //WORKING
   self.getAllCurrencyDepositHistory = async (options) => {
     const url = `/history/deposit/${paginationHandler(options)}`;
-    return await axiosRequest("GET", url, this.getHeaders(true), {}, demo=self.demo);
+    return await axiosRequest("GET", url, this.getHeaders(true), {}, self.demo);
   }
 
-  //WORKING
   self.getAllTransactionHistory = async (paginationOptions) => {
     const url = `/history/all/${paginationHandler(paginationOptions)}`;
-    return await axiosRequest("GET", url, this.getHeaders(true), {}, demo=self.demo);
+    return await axiosRequest("GET", url, this.getHeaders(true), {}, self.demo);
   }
 
-  //WORKING
   self.getAffiliatePayoutHistory = async (options) => {
     const url = `/history/affiliate/${paginationHandler(options)}`;
     return await axiosRequest("GET", url, this.getHeaders(true));
@@ -264,7 +232,6 @@ function Swyftx(apiKey, demoMode=false, autoWaitOnRateLimit=false) {
 
   //Limits endpoints
 
-  //WORKING
   self.getWithdrawalLimits = async() => {
     return await axiosRequest("GET", "/limits/withdrawal", this.getHeaders(true));
   }
@@ -276,97 +243,123 @@ function Swyftx(apiKey, demoMode=false, autoWaitOnRateLimit=false) {
     return await axiosRequest("GET", `/live-rates/${primaryAsset}`, this.getHeaders(false));
   }
 
-  //WORKING
   self.getMarketAssets = async () => {
-    return await axiosRequest("GET", "/markets/assets", this.getHeaders(false));
+    return await axiosRequest("GET", "/markets/assets", this.getHeaders(true));
   }
-  //WORKING
+
   self.getBasicInfo = async (asset) => {
     const url = asset ? asset : "";
-    return await axiosRequest("GET", `/markets/info/basic/${url}`, this.getHeaders(false));
+    return await axiosRequest("GET", `/markets/info/basic/${url}`, this.getHeaders(true));
   }
   
-  //WORKING
   self.getDetailedInfo = async (asset) => {
     const url = asset ? asset : "";
-    return await axiosRequest("GET", `/markets/info/detail/${url}`, this.getHeaders(false));
+    return await axiosRequest("GET", `/markets/info/detail/${url}`, this.getHeaders(true));
+  }
+
+  //Alert endpoints
+
+  self.getPriceAlerts = async (paginationOptions) => {
+    const pagination = paginationHandler(paginationOptions);
+    return await axiosRequest("GET", `/alerts${pagination}`, this.getHeaders(true));
+  }
+
+  self.createPriceAlert = async (primary, secondary, price) => {
+    return await axiosRequest("POST", `/alerts/${primary}/${secondary}`, this.getHeaders(true), {price});
+  }
+
+  self.cancelPriceAlert = async (Uuid) => {
+    return await axiosRequest("DELETE", `/alerts`, this.getHeaders(true), {priceAlertUuid: Uuid});
   }
 
   //Orders endpoints
 
-  //WORKING
   self.getPairExchangeRate = async (data) => {
     return await axiosRequest("POST", "/orders/rate", this.getHeaders(true), data);
   }
 
-  //NOT WORKING
   self.placeOrder = async (data) => {
-    return await axiosRequest("POST", "/orders", this.getHeaders(true), data, demo=self.demo);
+    return await axiosRequest("POST", "/orders", this.getHeaders(true), data, self.demo);
   }
 
-  //WORKING
   self.dustOrder = async (data) => {
-    return await axiosRequest("POST", "/user/balance/dust", this.getHeaders(true), data, demo=self.demo);
+    return await axiosRequest("POST", "/user/balance/dust", this.getHeaders(true), data, self.demo);
   }
 
-  //WORKING
   self.cancelOrder = async (orderUuid) => {
-    return await axiosRequest("DELETE", `/orders/${orderUuid}`, this.getHeaders(true), {}, demo=self.demo);
+    return await axiosRequest("DELETE", `/orders/${orderUuid}`, this.getHeaders(true), {}, self.demo);
   }
 
-  //WORKING
   self.listOrders = async (assetCode) => {
-    const url = assetCode ? '/orders/${assetCode}' : '/orders';
-    return await axiosRequest("GET", url, this.getHeaders(true), {}, demo=self.demo);
+    const url = assetCode ? `/orders/${assetCode}` : '/orders';
+    return await axiosRequest("GET", url, this.getHeaders(true), {}, self.demo);
   }
+
+  self.getOrderByUuid = async (orderUuid) => {
+    return await axiosRequest("GET", `/orders/byId/${orderUuid}`, this.getHeaders(true), {}, self.demo);
+  }
+
 
   //Recurring Orders
 
-  //WORKING
   self.getRecurringOrders = async () => {
     return await axiosRequest("GET", "/templates/getUserTemplates", this.getHeaders(true));
   }
 
-  //WORKING
   self.getRecurringOrderStats = async (templateUuid) => {
     return await axiosRequest("GET", `/templates/getUserTemplateStats/?templateUuid=${templateUuid}`, this.getHeaders(true));
   }
 
-  //NOT WORKING
   self.createRecurringOrder = async (data) => {
     return await axiosRequest("POST", `/templates/createUserTemplate`, this.getHeaders(true), data);
   }
 
-  //WORKING
   self.deleteRecurringOrder = async (templateUuid) => {
     return await axiosRequest("DELETE", `/templates/${templateUuid}`, this.getHeaders(true));
   }
 
+  //Swap endpoints
+
+  self.executeSwap = async (data) => {
+    return await axiosRequest("POST", "/swap", this.getHeaders(true), data, self.demo)
+  }
+
   //Compare endpoints
 
-  //WORKING
   self.compareExchange = async (exchange) => {
     return await axiosRequest("GET", `/compare/${exchange}`, this.getHeaders(true));
   }
 
   //Message endpoints
 
-  //WORKING
   self.getLatestMessages = async (limit=25) => {
     return await axiosRequest("GET", `/messages/latest/${limit}`, this.getHeaders(true));
   }
 
-  //WORKING
   self.getLatestAnnouncements = async (limit=25) => {
     return await axiosRequest("GET", `/messages/announcements/${limit}`, this.getHeaders(true));
   }
+
+  //Info endpoints
 
   self.getApiInfo = async () => {
     return await axiosRequest("GET", "/info", this.getHeaders(true))
   }
 
+  //Portfolio endpoints
 
-  //WORKING
+  self.getTradePriceHistory = async (assetId) => {
+    return await axiosRequest("GET", `/portfolio/tradePriceHistory/${assetId}`, this.getHeaders(true));
+  }
+
+  self.getAssetActivity = async (assetId, paginationOptions) => {
+    const pagination = paginationHandler(paginationOptions);
+    const url = `/portfolio/assetHistory/${assetId}/${pagination}`;
+    return await axiosRequest("GET", url, this.getHeaders(true));
+  }
+
+  //Place order helpers
+
   self.instantBuy = async (secondary, quantity, fiat=true, primary="USD") => {
     const data = {
       "primary": primary,
@@ -378,7 +371,6 @@ function Swyftx(apiKey, demoMode=false, autoWaitOnRateLimit=false) {
     return await self.placeOrder(data);
   }
 
-  //WORKING
   self.instantSell = async (secondary, quantity, fiat=true, primary="USD") => {
     const data = {
       "primary": primary,
@@ -390,7 +382,6 @@ function Swyftx(apiKey, demoMode=false, autoWaitOnRateLimit=false) {
     return await self.placeOrder(data);
   }
 
-  //WORKING
   self.placeLimitBuyOrder = async (secondary, quantity, trigger, fiat=true, primary="USD") => {
     const data = {
       primary,
@@ -403,7 +394,6 @@ function Swyftx(apiKey, demoMode=false, autoWaitOnRateLimit=false) {
     return await self.placeOrder(data);
   }
 
-  //WORKING
   self.placeLimitSellOrder = async (secondary, quantity, trigger, fiat=true, primary="USD") => {
     const data = {
       primary,
@@ -416,7 +406,6 @@ function Swyftx(apiKey, demoMode=false, autoWaitOnRateLimit=false) {
     return await self.placeOrder(data);
   }
 
-  //WORKING
   self.placeStopLimitBuyOrder = async (secondary, quantity, trigger, fiat=true, primary="USD") => {
     const data = {
       primary,
@@ -429,7 +418,6 @@ function Swyftx(apiKey, demoMode=false, autoWaitOnRateLimit=false) {
     return await self.placeOrder(data);
   }
 
-  //WORKING
   self.placeStopLimitSellOrder = async (secondary, quantity, trigger, fiat=true, primary="USD") => {
     const data = {
       primary,

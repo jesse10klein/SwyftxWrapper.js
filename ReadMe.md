@@ -52,7 +52,7 @@ For **DEMO** use, simply set demo to true when instantiating the wrapper
 const swyftx = Swyftx("YOUR_API_KEY", demo=true);
 ```
 
-**Rate Limiting** - Turning on autoWaitOnRateLimit will cause the client to retry requests when wait limited until they go through, so that you don't have to handle being rate limited on your side
+**Rate Limiting** - Turning on autoWaitOnRateLimit will cause the client to retry requests when rate limited until they go through.
 
 ```javascript
 const swyftx = Swytfy("YOUR_API_KEY", demo=false, autoWaitOnRateLimit=true)

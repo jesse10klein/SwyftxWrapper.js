@@ -86,12 +86,14 @@ const profileDetails = await swyftx.getProfile();
 
 ```javascript
 const data = {
-  "favouriteAsset": {
-    "assetId": 3,
-    "favStatus": true
-  },
-  "analyticsOptOut": false,
-  "toggleSMSRecovery": true
+  data: {
+    "favouriteAsset": {
+      "assetId": 3,
+      "favStatus": true
+    },
+    "analyticsOptOut": false,
+    "toggleSMSRecovery": true
+  }
 };
 const response = await swyftx.setAccountSettings(data);
 ```
@@ -361,6 +363,51 @@ const detailedInfo = await swyftx.getDetailedInfo();
 const detailedInfo = await swyftx.getDetailedInfo("LTC");
 ```
 
+## Alert Endpoints
+
+### Get Price Alerts
+
+**paginationOptions**: Pagination object - contains primary, secondary, limit, from, to, status
+
+**primary** (optional): AssetId for primary asset
+
+**secondary** (optional): AssetId for secondary asset
+
+**limit** (optional): Maximum entries per page
+
+**from** (optional): Return results after this date
+
+**to** (optional): Return results before this date
+
+**status** (optional): Comma separated list of statuses to include
+
+```javascript
+const paginationOptions = {
+  primary: 1
+}
+const response = await s.getPriceAlerts(paginationOptions);
+```
+
+### Create Price Alert
+
+**primary**: AssetId of the primary asset for the alert
+
+**secondary**: AssetId of the secondary asset for the alert
+
+**price**: The price of the primary asset at which the alert will trigger
+
+```javascript
+const response = await s.createPriceAlert(1, 5, 1000);
+```
+
+### Delete Price Alert
+
+**uuid**: The Uuid of the Alert that you want to delete
+
+```javascript
+const response = await s.cancelPriceAlert(alertId);
+```
+
 ## Orders Endpoints
 
 ### Pair Echange Rate
@@ -450,6 +497,15 @@ const allOrders = await swyftx.listOrders();
 const ordersLTC = await swyftx.listOrders("LTC");
 ```
 
+### Get Order By UUID
+
+**UUID**: The UUID of the order you would like information on
+
+```javascript
+const orderUuid = "YOUR_ORDER_UUID";
+const orderInfo = await swyftx.getOrderByUuid(orderUuid);
+```
+
 ## Recurring Orders Endpoints
 
 ### Get Recurring Orders
@@ -501,6 +557,29 @@ const templateUuid = "YOUR_TEMPLATE_UUID";
 const recurringOrderStats = await swyftx.deleteRecurringOrder(templateUuid);
 ```
 
+## Swap Endpoints
+
+### Swap Crypto Assets
+
+**data**: contains primary, secondary, quantity, assetQuantity, orderType and trigger
+
+**buy**: The assetId of the asset you'd like to buy
+**sell**: The assetId of the asset you'd like to sell
+**limitAsset**: The asset to limit the swap
+**limitQty**: The quantity of the asset you'd like to sell
+**intermediateAssetId**: The sell asset will be traded to this, then the buy asset
+
+```javascript
+const data = {
+  "buy": "5",
+  "sell": "36",
+  "limitAsset": 36,
+  "limitQty": "20",
+  "intermediateAssetId": "3"
+}
+const response = await s.executeSwap(data);
+```
+
 ## Compare Endpoints
 
 ### Compare Exchange
@@ -546,6 +625,46 @@ const messages = await swyftx.getLatestAnnouncements(80);
 const apiInfo = await swyftx.getApiInfo();
 ```
 
+## Portfolio Endpoints
+
+### Get Trade Price History
+
+**denotedAssetId**: AssetId you want to see the trade price history of
+
+```javascript
+const response = await s.getTradePriceHistory(5);
+```
+
+### Get Asset Activity
+
+**assetId**: AssetId you want to see the history of
+
+**paginationOptions**: Pagination object - contains page, limit, sortKey, sortDirection, startDate, endDate, type, status
+
+**page** (optional): Page number to start from
+
+**limit** (optional): Limit of entries per page
+
+**sortKey** (optional): Field on which to sort items
+
+**sortDirection** (optional): Direction in which to sort
+
+**startDate** (optional): Return results after this date
+
+**endDate** (optional): Return results before this date
+
+**type** (optional): Comma separated list of types to include
+
+**status** (optional): Comma separated list of statuses to include
+
+```javascript
+  const paginationOptions = {
+    page: 0,
+    limit: 20
+  }
+  const response = await s.getAssetActivity(5, paginationOptions);
+```
+
 ## ORDERING IN DEPTH
 
 When making an order using the wrapper, you should always keep in mind that the default primary currency is USD. So make sure to make any conversions if needed.
@@ -571,7 +690,7 @@ When making an order using the wrapper, you should always keep in mind that the 
 
 ```javascript
 //Buy 1000 Doge coin when it drops to $0.05 per coin
-const response = await swyftx.placeLimitBuyOrder("DOGE", 1000, 0.05 fiat=false);
+const response = await swyftx.placeLimitBuyOrder("DOGE", 1000, 0.05, fiat=false);
 ```
 
 ```javascript
