@@ -385,7 +385,7 @@ const detailedInfo = await swyftx.getDetailedInfo("LTC");
 const paginationOptions = {
   primary: 1
 }
-const response = await s.getPriceAlerts(paginationOptions);
+const response = await swyftx.getPriceAlerts(paginationOptions);
 ```
 
 ### Create Price Alert
@@ -397,7 +397,7 @@ const response = await s.getPriceAlerts(paginationOptions);
 **price**: The price of the primary asset at which the alert will trigger
 
 ```javascript
-const response = await s.createPriceAlert(1, 5, 1000);
+const response = await swyftx.createPriceAlert(1, 5, 1000);
 ```
 
 ### Delete Price Alert
@@ -405,7 +405,7 @@ const response = await s.createPriceAlert(1, 5, 1000);
 **uuid**: The Uuid of the Alert that you want to delete
 
 ```javascript
-const response = await s.cancelPriceAlert(alertId);
+const response = await swyftx.cancelPriceAlert(alertId);
 ```
 
 ## Orders Endpoints
@@ -577,7 +577,7 @@ const data = {
   "limitQty": "20",
   "intermediateAssetId": "3"
 }
-const response = await s.executeSwap(data);
+const response = await swyftx.executeSwap(data);
 ```
 
 ## Compare Endpoints
@@ -632,7 +632,7 @@ const apiInfo = await swyftx.getApiInfo();
 **denotedAssetId**: AssetId you want to see the trade price history of
 
 ```javascript
-const response = await s.getTradePriceHistory(5);
+const response = await swyftx.getTradePriceHistory(5);
 ```
 
 ### Get Asset Activity
@@ -662,7 +662,7 @@ const response = await s.getTradePriceHistory(5);
     page: 0,
     limit: 20
   }
-  const response = await s.getAssetActivity(5, paginationOptions);
+  const response = await swyftx.getAssetActivity(5, paginationOptions);
 ```
 
 ## ORDERING IN DEPTH
